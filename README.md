@@ -1,4 +1,4 @@
-# Deep-Movie-Genre-Prediction
+# Deep Movie Genre Prediction
 Give the title and description of a movie can the genre be predicted?
 ## How to run
 A prediction can be done by calling test.py with all the title and description of a movie.
