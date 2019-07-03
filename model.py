@@ -2,9 +2,27 @@ from keras import Input, Model
 from keras.layers import Embedding, Bidirectional, LSTM, Concatenate, LeakyReLU, Dense
 from keras.models import load_model
 
+from keras.preprocessing.sequence import pad_sequences
+
+
+def preprocess_input(tokenizer, txt_in, len_constant):
+    x = tokenizer.texts_to_sequences(texts=txt_in)
+    return pad_sequences(x, maxlen=len_constant)
+
+"""
+this class creates the model used in training/ prediction
+it allows us to either create a model using the build model function,
+or load a model graph if the file name is included
+n_classes - is the number of classes in the output
+corpus_size - refers to the number of tokenized words
+x1_len - the padded sequence size of any title
+x2_len - the padded sequence size  of any description
+filename - a pre-trained model in the form of .h5 can be used in inference instances
+"""
+
 
 class GenreClassifier:
-    def __init__(self, n_classes, corpus_size, x1_len, x2_len, filename=None):
+    def __init__(self, n_classes=None, corpus_size=None, x1_len=None, x2_len=None, filename=None):
         if filename is None:
             self.model = self.build_model(n_classes, corpus_size, x1_len, x2_len)
         else:
@@ -46,12 +64,3 @@ class GenreClassifier:
 
     def predict(self, in1, in2):
         return self.model.predict([in1, in2])
-
-
-if __name__ == "__main__":
-    test_model = GenreClassifier(1000, "model.pkl")
-    print(test_model.predict(
-        "Led by Woody, Andy's toys live happily in his room until Andy's birthday brings Buzz Lightyear onto the "
-        "scene. Afraid of losing his place in Andy's heart, Woody plots against Buzz. But when circumstances separate "
-        "Buzz and Woody from their owner, the duo eventually learns to put aside their differences")
-    )
