@@ -12,7 +12,13 @@ test.py --title "Othello" --description "The evil Iago pretends to be friend of 
 ```
 The returned prediction is printed to console, in the following format.
 ```
-
+{
+"title": "Othello",
+"description": "The evil Iago pretends to be friend of Othello in
+order to manipulate him to serve his own end in the film version of
+this Shakespeare classic.",
+"genre": "Drama"
+}
 ```
 ## Requirements
 To run this solution the following libraries are needed.
