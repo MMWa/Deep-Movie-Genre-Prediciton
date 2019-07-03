@@ -4,7 +4,7 @@ Give the title and description of a movie can the genre be predicted?
 This repo contains the code for training and running a model the would predict a movies genre given the title and a description.
 
 ## How to run
-A prediction can be done by calling test.py with the title and description of a movie.
+A prediction can be done by calling test.py with the title and description of a movie as arguments.
 
 For example:
 ```
