@@ -23,13 +23,14 @@ this Shakespeare classic.",
 "genre": "Drama"
 }
 ```
+## How to train
+To train the classifier, the train.ipynb can be used, simply replace the filename and make sure the correct columns are selected, the notebook should handle the rest.
 ## Requirements
 To run this solution the following libraries are needed.
 * Numpy
 * Keras
 * Tensorflow
 * SciPy
-
 ## Potential Improvements
 * The number of genres can be reduced.
 * The samples per class can be better balanced to reduce model bias.
