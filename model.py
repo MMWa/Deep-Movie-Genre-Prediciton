@@ -9,6 +9,7 @@ def preprocess_input(tokenizer, txt_in, len_constant):
     x = tokenizer.texts_to_sequences(texts=txt_in)
     return pad_sequences(x, maxlen=len_constant)
 
+
 """
 this class creates the model used in training/ prediction
 it allows us to either create a model using the build model function,
