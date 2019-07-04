@@ -1,9 +1,9 @@
 # Deep Movie Genre Prediction
 Give the title and description of a movie can the genre be predicted?
 ## About
-This repo contains the code for training and running a model the would predict a movies genre given the title and a description.
+This repo contains the code for training and running a model the would predict a movie's genre given the title and a description.
 ### The model
-The model used is a deep model containing two input heads each with their own embedding layers and LSTM layers.
+The model used is a deep model, containing two input heads each with their own embedding layers and LSTM layers.
 
 The output from each LSTM layer is concatenated then the result is fed into two dense layers where an output classification is given. 
 ## How to run

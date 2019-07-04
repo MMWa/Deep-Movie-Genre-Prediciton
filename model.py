@@ -1,5 +1,6 @@
 from keras import Input, Model
-from keras.layers import Embedding, Bidirectional, LSTM, Concatenate, LeakyReLU, Dense
+from keras.layers import Embedding, Bidirectional, LSTM, Concatenate, LeakyReLU, Dense, SpatialDropout1D, \
+    BatchNormalization, Dropout
 from keras.models import load_model
 
 from keras.preprocessing.sequence import pad_sequences
@@ -39,22 +40,26 @@ class GenreClassifier:
     def build_model(self, n_classes, corpus_size, x1_len, x2_len):
         input_branch_1 = Input(shape=(x1_len,), dtype='int32')
         embedded_sequences_1 = Embedding(corpus_size, 100)(input_branch_1)
+        embedded_sequences_1 = SpatialDropout1D(0.2)(embedded_sequences_1)
 
         input_branch_2 = Input(shape=(x2_len,), dtype='int32')
         embedded_sequences_2 = Embedding(corpus_size, 100)(input_branch_2)
+        embedded_sequences_2 = SpatialDropout1D(0.2)(embedded_sequences_2)
 
-        l_lstm_1 = Bidirectional(LSTM(100))(embedded_sequences_1)
-        l_lstm_2 = Bidirectional(LSTM(100))(embedded_sequences_2)
+        l_lstm_1 = Bidirectional(LSTM(200))(embedded_sequences_1)
+        l_lstm_2 = Bidirectional(LSTM(200))(embedded_sequences_2)
 
         concat = Concatenate()([l_lstm_1, l_lstm_2])
+        concat = BatchNormalization()(concat)
 
-        preds = Dense(n_classes * 4)(concat)
+        preds = Dense(n_classes * 8)(concat)
         preds = LeakyReLU(alpha=0.3)(preds)
+        preds = Dropout(0.15)(preds)
 
         preds = Dense(n_classes, activation='sigmoid')(preds)
 
         model = Model([input_branch_1, input_branch_2], preds)
-        model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['acc'])
+        model.compile(loss='categorical_crossentropy', optimizer='adagrad', metrics=['acc'])
         return model
 
     def load(self, filename):

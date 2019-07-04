@@ -13,10 +13,10 @@ if __name__ == "__main__":
     parser.add_argument("--title_max_length", required=False, type=int, default=20)
     parser.add_argument("--description_max_length", required=False, type=int, default=184)
 
-    parser.add_argument("--labeler_file", required=False, type=str, default="model/class_labler.joblib")
+    parser.add_argument("--labeler_file", required=False, type=str, default="model/class_labeler.joblib")
     parser.add_argument("--tokenizer_file", required=False, type=str, default="model/tokenizer.joblib")
 
-    parser.add_argument("--model_file", required=False, type=str, default="model/simple_text_classifier_33.h5")
+    parser.add_argument("--model_file", required=False, type=str, default="model/weights-epoch-38-val-acc-0.472.h5")
 
     args = parser.parse_args()
 
