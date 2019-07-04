@@ -1,9 +1,7 @@
 from joblib import load
 import numpy as np
 from model import GenreClassifier, preprocess_input
-import sys
 import argparse
-from keras.preprocessing.sequence import pad_sequences
 
 
 if __name__ == "__main__":
@@ -22,6 +20,8 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    # load the labeler and tokenizer which contain the genres and word tokens used by the model.
+    # we reuse the tokenizer from training, so the input will have the same int token when fed to the neural network.
     labeler = load(args.labeler_file)
     tokenizer = load(args.tokenizer_file)
 
@@ -39,10 +39,16 @@ if __name__ == "__main__":
                             X2_max_len,
                             filename=args.model_file)
 
+    # predicting the class of the input
     prediction = model.predict(in_title, in_description)
+    # since there is a recurrent aspect to out model an input can have multiple outputs,
+    # the simplest thing to do is take the mean of all predictions, this can be improved....
     combined_probabilities = np.mean(prediction, axis=0)
 
+    # argmax to find which class has the highest probability
     idx = np.argmax(combined_probabilities)
+    # get the name of that class using the index from the labeler
     predicted_genre = labeler.classes_[idx]
 
+    # with python we can only print and not return when at entry point
     print({"title": args.title, "description": args.description, "genre": predicted_genre})
